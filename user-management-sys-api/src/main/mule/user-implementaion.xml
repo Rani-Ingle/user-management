@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="eb612f3c-b2e6-4439-b62d-48134ed08540" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Rajaram123@" database="user_management" />
+	</db:config>
+	<sub-flow name="create-user" doc:id="2f41ccf7-ff33-47cf-8165-267278e6c7b7" >
+		<db:insert doc:name="Insert" doc:id="f54e589f-6467-44cc-8b84-497ea0a0f36a" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO user_management.user
+(lastName,firstName,age,email,contact,userName,password,created_by,updated_by,created_date,
+updated_date)
+VALUES
+(
+:lName,:fName,:age,:mail,:phone,:uName,:pass,:createdBy,:updatedBy,CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP());]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	fName:payload.firstName,
+	lName:payload.lastName,
+	age: payload.age,
+	mail: payload.mail,
+	phone: payload.phone,
+	pass: payload.password,
+	uName:payload.userName,
+	updatedBy:'ADMIN',
+	createdBy:'ADMIN',
+	
+	}]]]></db:input-parameters>
+		</db:insert>
+		<logger level="INFO" doc:name="Logger" doc:id="7d07c6d2-5c3a-44bb-86ef-c04ffa13b9b0" message="user creted"/>
+	</sub-flow>
+		<sub-flow name="list-users" doc:id="a33cf54f-4b35-49c2-af54-84052e63513d" >
+		<db:select doc:name="Select" doc:id="5dd15bf9-ba8b-491f-a9ef-50e03bda9602" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from user ;
+]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="0eb75b73-fbaa-40cf-a2cb-02490c18efef" message="#[payload]"/>
+	</sub-flow>
+		
+	<sub-flow name="search-users" doc:id="fa2a6337-0cf6-4c6e-94c2-cb5a180b4730" >
+		<db:select doc:name="Select" doc:id="01b41775-06f7-4a42-addf-04aa4975e9b6" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from user where id=:uid;
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	uid:attributes.uriParams.userId
+}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="8e295fe6-15a6-4478-92cb-f3573c4791b7" message="user creted"/>
+	</sub-flow>
+	<sub-flow name="update-users" doc:id="899e7696-fd1d-44cd-b1f5-4ba6824db789" >
+		<db:update doc:name="Update" doc:id="4d926f36-791e-4153-a5e5-6f5dfbcc485d" config-ref="Database_Config">
+			<db:sql ><![CDATA[  UPDATE user
+SET firstName=:fName,lastName=:lName,age=:age,email=:mail,contact=:phone,password=:pass,
+username=:uName,updated_by=:updatedBy,updated_date=CURRENT_TIMESTAMP()
+	WHERE id=:userId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	userId:attributes.uriParams.userId,
+	fName:payload.firstName,
+	lName:payload.lastName,
+	age: payload.age,
+	mail: payload.mail,
+	phone: payload.phone,
+	pass: payload.password,
+	uName:payload.userName,
+	updatedBy:'ADMIN_update'
+	}]]]></db:input-parameters>
+		</db:update>
+		<logger level="INFO" doc:name="Logger" doc:id="ce184830-6c7c-4ed6-aefa-e9595c28f3ac" message="user creted"/>
+	</sub-flow>
+		<sub-flow name="delete-users" doc:id="11309c29-b9b7-4a20-b2c7-2ebaa4c5b0e9" >
+		<db:delete doc:name="Delete" doc:id="17263970-6464-4f0b-92e7-5d5d06b31361" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM user WHERE id=:uId;
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	uId:attributes.uriParams.userId
+}]]]></db:input-parameters>
+		</db:delete>
+		<logger level="INFO" doc:name="Logger" doc:id="561c2ea2-f8f9-4a8f-bdf9-d1f17a842a80" message="user creted"/>
+	</sub-flow>
+</mule>

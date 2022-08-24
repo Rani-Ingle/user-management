@@ -1,0 +1,279 @@
+#%RAML 1.0
+title: user-management-sys-api
+/user:
+  get:
+    description: List all users
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/userExample.raml
+  post:
+    description: Create user 
+    body:
+      application/json:
+        example: !include examples/userExamples.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: {"message" : "user created"}                     
+  /{userId}:
+    get:
+      description: Search User by id
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/userExamples.raml
+    put:
+      description: Update user details
+      body:
+        application/json:
+          example: !include examples/userExamples.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example: {"message" : "user updated successfully"}                       
+    delete:
+      description: Delete user 
+      responses:
+        200:
+          body:
+            application/json:
+              example: {"message" : "user deleted successfully"}
+/role:
+  get:
+    description: List all roles
+    responses:
+      200:
+        body:
+          application/json:
+            example: [{"roleName": ""}]
+  post:
+    description: Create role
+    body:
+      application/json:
+        example: {
+                    "roleName": " "
+                 }
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {"message": "role created successfully"}
+  /{roleId}:
+    get:
+      description: Search role by id
+      responses:
+        200:
+          body:
+            application/json:
+              example: {
+                          "roleName": " "
+                       }            
+    put:
+      description: Update role details
+      body:
+        application/json:
+          example: {
+                      "roleName": ""
+                   }
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "role updated successfully"}
+    delete:
+      description: Delete role details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "role deleted successfully"}
+/permission:
+  get:
+    description: List permission
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [{
+                "permissionName": ""
+              }]
+  post:
+    description: Create permission
+    body:
+      application/json:
+        example:
+          {
+            "permissionName": "" 
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {"message": "permission created successfully"}
+  /{PermissionId}:
+    get:
+      description: Search permission details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "permissionName": ""
+                }
+    put:
+      description: Update permission details
+      body:
+        application/json:
+          example:
+            {
+              "permissionName": ""
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "permission details updated successfully"}
+    delete:
+      description: Delete permission details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "permission deleted successfully"}
+/user_role_mapping:
+  get:
+    description: List user_role_mapping details
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [{"userId": 1, "roleId": 1}]
+  post:
+    description: Create user_role_mapping
+    body:
+      application/json:
+        example:
+          {
+            "userId": 1,
+            "roleId": 1
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {"message": "user_role_mapping created successfully"}
+  /{user_role_mapping_Id}:
+    get:
+      description: Search user_role_mapping details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "userId": 1,
+                  "roleId": 1
+                }
+    put:
+      description: Update user_role_mapping details
+      body:
+        application/json:
+          example:
+            {
+                "userId": 1,
+                "roleId": 1
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "user_role_mapping details updated successfully"}
+    delete:
+      description: Delete the user_role_mapping details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "user_role_mapping details deleted successfully"}
+/role_permission_mapping:
+  get:
+    description: List role_permission_mapping
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [{
+                "roleId": 1,
+                "permissionId": 1
+              }]
+  post:
+    description: Create role_permission_mapping
+    body:
+      application/json:
+        example:
+          {
+            "roleId": 1,
+            "permissionId": 1
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {"message": "role_permission_mapping created successfully"}
+  /{role_permission_mapping_id}:
+    get:
+      description: Search role_permission_mapping details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {
+                  "roleId": 1,
+                  "permissionId": 1
+                }
+    put:
+      description: Update role_permission_mapping details
+      body:
+        application/json:
+          example:
+            {
+                "roleId": 1,
+                "permissionId": 1
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                {"message": "role_permission_mapping details updated successfully"}
+    delete:
+      description: Delete role_permission_mapping details
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                {"message": "role_permission_mapping details deleted successfully"}
+          
+        
+                            

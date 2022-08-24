@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="list-role" doc:id="5a53c3a7-d9cd-483f-bde4-184e21f0f233" >
+		<db:select doc:name="Select" doc:id="3cbf3d4b-93e6-4948-96e7-690c57961a5c" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM role;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="aa205829-2c39-4fc0-ac90-40b00650a39d">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="93f9b83a-8544-4639-804e-27e828b3f2b3" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="search-role" doc:id="f87e5615-ffa9-4bdf-b745-14048d24f0b2" >
+		<db:select doc:name="Select" doc:id="8addacd9-b657-48a6-8537-9802ea63d6af" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM role WHERE id=:rId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	rId:attributes.uriParams.roleId
+}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="07d47653-3633-42ed-a825-62d75f84226e" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-role" doc:id="3199d338-10a8-4d21-a660-38e05ca93b86" >
+		<db:update doc:name="Update" doc:id="255a1f0a-6397-4d68-bc18-c48dbe8f04be" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE user_management.role
+SET
+roleName = :rName,
+updated_by = :updatedBy,
+updated_date = CURRENT_TIMESTAMP()
+WHERE id = :roleId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	roleId:attributes.uriParams.roleId,
+	rName: payload.roleName,
+	updatedBy:"ADMIN"
+}]]]></db:input-parameters>
+		</db:update>
+		<ee:transform doc:name="Transform Message" doc:id="27693b04-b6aa-4c86-9dd6-cc52c371fefb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="7042eef4-2c68-4682-ad23-b3d79652dcd0" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="create-role" doc:id="7a674b78-9c8c-4bba-bfed-df263c8e7a8a" >
+		<db:insert doc:name="Insert" doc:id="c0ee7ce8-65a5-405e-9a71-73d443bde8c3" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO `user_management`.`role`
+(roleName,
+created_by,
+created_date,
+updated_by,
+updated_date)
+VALUES
+(
+:roleName,
+:createdBy,
+CURRENT_TIMESTAMP(),
+:updatedBy,
+CURRENT_TIMESTAMP());]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"createdBy": "ADMIN",
+	"updatedBy": "ADMIN",
+	"roleName": payload.roleName
+}]]]></db:input-parameters>
+		</db:insert>
+		<logger level="INFO" doc:name="Logger" doc:id="6ae3e17e-d074-4f70-a7ca-c372c0e711ff" />
+	</sub-flow>
+	<sub-flow name="delete-role" doc:id="65904a24-dc8c-4c2c-878e-d01808657095" >
+		<db:delete doc:name="Delete" doc:id="3daf8e96-d93a-46e6-b4a5-d68c9c273fb6" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM role WHERE id=:rId;
+]]></db:sql>
+		</db:delete>
+		<logger level="INFO" doc:name="Logger" doc:id="b614cabf-b2bb-4372-9913-5e72800e7b9c" message="#[payload]"/>
+	</sub-flow>
+</mule>

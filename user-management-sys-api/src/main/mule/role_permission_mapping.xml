@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="create-role_permission_mapping" doc:id="2f4b77bb-9ed7-4b68-9347-6399ae10d586" >
+		<db:insert doc:name="Insert" doc:id="a896768f-644c-4cbe-be43-a17245c02a7e" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO user_management.role_permission_mapping
+(role_id, permission_id, created_by, created_date, updated_by, updated_date)
+VALUES
+(:roleId, :permissionId, :createdBy, CURRENT_TIMESTAMP(), :updatedBy, CURRENT_TIMESTAMP());]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	roleId: payload.role_id,
+	permissionId: payload.permission_id,
+	createdBy: "ADMIN",
+	updatedBy: "ADMIN"
+}]]]></db:input-parameters>
+		</db:insert>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="fc50791d-7488-4db3-9a2b-2f04ea103d7e" />
+	</sub-flow>
+	<sub-flow name="list-role_permission_mapping" doc:id="f8953406-f986-4082-9f64-629a4620d65f" >
+		<db:select doc:name="Select" doc:id="b2cb7914-ede3-4559-bf94-e4972524faaf" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM role_permission_mapping;]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="de53a1e3-17bf-4781-b1c6-e11be3986846" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="search-role_permission_mapping" doc:id="0101c786-617c-4eac-ad7e-bd3a4aa5946c" >
+		<db:select doc:name="Select" doc:id="3f2ec958-ecca-4efc-9f70-7a487bfaa725" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM role_permission_mapping WHERE id = rpId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	rpId: attributes.uriParams.role_permission_mapping_id
+}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="18e38db1-aff4-4d85-8edb-6d076a8b4a5d" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-role_permission_mapping" doc:id="1f2cda96-9636-4618-a1b1-1001f752c8a3" >
+		<db:update doc:name="Update" doc:id="b7740cb1-1c35-43b6-852e-2617c3f5a368" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE user_management.role_permission_mapping
+SET
+role_id = :roleId,
+permission_id = :permissionId,
+updated_by = :updatedBy,
+updated_date = CURRENT_TIMESTAMP()
+WHERE id = :rpId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	rpId: attributes.uriParams.role_permission_mapping_id,
+	roleId: payload.role_id,
+	permissionId: payload.permission_id,
+	createdBy: "ADMIN",
+	updatedBy: "ADMIN"
+}]]]></db:input-parameters>
+		</db:update>
+		<logger level="INFO" doc:name="Logger" doc:id="a8a8691c-943a-4673-b5c7-ed9512b4a2b2" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="delete-role_permission_mapping" doc:id="cfa2a9ae-10b0-48a9-ac4d-e074897e08e0" >
+		<db:delete doc:name="Delete" doc:id="f79ec4cd-bc0b-42d3-9a89-13058bc498be" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM role_permission_mapping WHERE id = rpId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	epId: attributes.uriParams.role_permission_mapping_ip
+}]]]></db:input-parameters>
+		</db:delete>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="10ce7b96-0b39-4d67-8140-412c5da602d3" />
+	</sub-flow>
+</mule>

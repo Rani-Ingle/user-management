@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="list-user_role_mapping" doc:id="f9bfe816-17f4-4175-9c1d-1a01ed2beeeb" >
+		<db:select doc:name="Select" doc:id="611a2bf3-7594-4ee6-bba7-042d66d7bebd" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM user_role_mapping;]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="021db44a-2de2-45cc-88cd-958d8ab302fe" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="search-user_role_mapping" doc:id="c138d53f-2739-4634-8ff1-4bf96b93a513" >
+		<db:select doc:name="Select" doc:id="46529975-eb81-40c0-85e1-4f74044c8038" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM user_role_mapping WHERE id=:urId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	urId:attributes.uriParams.user_role_mapping_Id
+}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="a8113550-167e-4610-835c-be7a660eff1f" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="create-user_role_mapping" doc:id="b64341dd-15c7-4436-95d1-a5856fdd8ccb" >
+		<db:insert doc:name="Insert" doc:id="6ccf63c5-3fac-4a8c-b18d-1acae0a22f2d" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO user_management.user_role_mapping
+(user_id, role_id, created_by, created_date, updated_by, updated_date)
+VALUES(:userId, :roleId, :createdBy, CURRENT_TIMESTAMP(), :updatedBy, CURRENT_TIMESTAMP());]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{	
+	userId: payload.user_id,
+	roleId: payload.role_id,
+	createdBy: "ADMIN",
+	updatedBy: "ADMIN"
+}]]]></db:input-parameters>
+		</db:insert>
+		<logger level="INFO" doc:name="Logger" doc:id="363ba399-36c2-4705-9656-02898822c3b9" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-user_role_mapping" doc:id="e549a6b3-d2b3-43ce-8421-bd8a4b018f55" >
+		<db:update doc:name="Update" doc:id="7364587b-88f0-4be2-9136-054b8ce030cf" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE user_role_mapping
+SET
+user_id = :uId,
+role_id = :rId,
+created_by = :createdBy,
+created_date = CURRENT_TIMESTAMP(),
+updated_by = :updatedBy,
+updated_date = CURRENT_TIMESTAMP()
+WHERE id = :urId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	urId:attributes.uriParams.user_role_mapping_Id,
+	uId: payload.user_id,
+	rId: payload.role_id,
+	createdBy: "ADMIN",
+	updatedBy: "ADMIN"
+}]]]></db:input-parameters>
+		</db:update>
+		<logger level="INFO" doc:name="Logger" doc:id="644159ef-e125-4809-96f7-68c5df3dbb10" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="delete-user_role_mapping" doc:id="123401ae-2284-42e3-90c5-b4e56c17cd88" >
+		<db:delete doc:name="Delete" doc:id="6bac20d0-26de-48ba-9ef7-e17b8b5ce1f7" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM user_role_mapping WHERE id=:urId;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	urId:attributes.uriParams.user_role_mapping_Id
+}]]]></db:input-parameters>
+		</db:delete>
+		<logger level="INFO" doc:name="Logger" doc:id="6b2cd095-be2a-47ba-96e4-362632321caa" message="#[payload]"/>
+	</sub-flow>
+</mule>
