@@ -4,9 +4,7 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
-	<db:config name="Database_Config" doc:name="Database Config" doc:id="eb612f3c-b2e6-4439-b62d-48134ed08540" >
-		<db:my-sql-connection host="localhost" port="3306" user="root" password="Rajaram123@" database="user_management" />
-	</db:config>
+
 	<sub-flow name="create-user" doc:id="2f41ccf7-ff33-47cf-8165-267278e6c7b7" >
 		<db:insert doc:name="Insert" doc:id="f54e589f-6467-44cc-8b84-497ea0a0f36a" config-ref="Database_Config">
 			<db:sql ><![CDATA[INSERT INTO user_management.user
