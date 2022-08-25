@@ -39,8 +39,6 @@ VALUES(:userId, :roleId, :createdBy, CURRENT_TIMESTAMP(), :updatedBy, CURRENT_TI
 SET
 user_id = :uId,
 role_id = :rId,
-created_by = :createdBy,
-created_date = CURRENT_TIMESTAMP(),
 updated_by = :updatedBy,
 updated_date = CURRENT_TIMESTAMP()
 WHERE id = :urId;]]></db:sql>
@@ -48,7 +46,6 @@ WHERE id = :urId;]]></db:sql>
 	urId:attributes.uriParams.user_role_mapping_Id,
 	uId: payload.user_id,
 	rId: payload.role_id,
-	createdBy: "ADMIN",
 	updatedBy: "ADMIN"
 }]]]></db:input-parameters>
 		</db:update>

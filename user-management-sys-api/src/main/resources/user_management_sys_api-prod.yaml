@@ -1,3 +1,6 @@
+api:
+  id: "0000"
+
 database:
   host: "localhost"
   port: "3306"
