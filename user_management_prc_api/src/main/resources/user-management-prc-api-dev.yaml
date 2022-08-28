@@ -1,0 +1,19 @@
+api: 
+  id: "00000"
+  basePath: "/prc/api/*"
+  
+http:
+  host: "localhost"
+  port: "8088"
+  timeOut: "30000"
+ 
+userManagementSysApi:
+  host: "localhost"
+  port: "8081"
+  timeOut: "30000"
+  userPath: "/sys/api/user"
+  userPathId: "/sys/api/user/{userId}"
+  rolePath: "/sys/api/role"
+  rolePathId: "/sys/api/role/{roleId}"
+  permissionPath: "/sys/api/permission"
+  permissionPathId: "/sys/api/permission/{permissionId}"

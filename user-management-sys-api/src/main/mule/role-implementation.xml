@@ -73,7 +73,7 @@ CURRENT_TIMESTAMP());]]></db:sql>
 	"roleName": payload.roleName
 }]]]></db:input-parameters>
 		</db:insert>
-		<logger level="INFO" doc:name="Logger" doc:id="6ae3e17e-d074-4f70-a7ca-c372c0e711ff" />
+		<logger level="INFO" doc:name="Logger" doc:id="6ae3e17e-d074-4f70-a7ca-c372c0e711ff" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="delete-role" doc:id="65904a24-dc8c-4c2c-878e-d01808657095" >
 		<db:delete doc:name="Delete" doc:id="3daf8e96-d93a-46e6-b4a5-d68c9c273fb6" config-ref="Database_Config">

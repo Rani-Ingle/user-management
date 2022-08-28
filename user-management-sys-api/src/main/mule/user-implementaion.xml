@@ -26,7 +26,7 @@ VALUES
 	
 	}]]]></db:input-parameters>
 		</db:insert>
-		<logger level="INFO" doc:name="Logger" doc:id="7d07c6d2-5c3a-44bb-86ef-c04ffa13b9b0" message="user creted"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7d07c6d2-5c3a-44bb-86ef-c04ffa13b9b0" message="#[payload]"/>
 	</sub-flow>
 		<sub-flow name="list-users" doc:id="a33cf54f-4b35-49c2-af54-84052e63513d" >
 		<db:select doc:name="Select" doc:id="5dd15bf9-ba8b-491f-a9ef-50e03bda9602" config-ref="Database_Config">
@@ -44,7 +44,7 @@ VALUES
 	uid:attributes.uriParams.userId
 }]]]></db:input-parameters>
 		</db:select>
-		<logger level="INFO" doc:name="Logger" doc:id="8e295fe6-15a6-4478-92cb-f3573c4791b7" message="user creted"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8e295fe6-15a6-4478-92cb-f3573c4791b7" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="update-users" doc:id="899e7696-fd1d-44cd-b1f5-4ba6824db789" >
 		<db:update doc:name="Update" doc:id="4d926f36-791e-4153-a5e5-6f5dfbcc485d" config-ref="Database_Config">
@@ -64,7 +64,7 @@ username=:uName,updated_by=:updatedBy,updated_date=CURRENT_TIMESTAMP()
 	updatedBy:'ADMIN_update'
 	}]]]></db:input-parameters>
 		</db:update>
-		<logger level="INFO" doc:name="Logger" doc:id="ce184830-6c7c-4ed6-aefa-e9595c28f3ac" message="user creted"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ce184830-6c7c-4ed6-aefa-e9595c28f3ac" message="#[payload]"/>
 	</sub-flow>
 		<sub-flow name="delete-users" doc:id="11309c29-b9b7-4a20-b2c7-2ebaa4c5b0e9" >
 		<db:delete doc:name="Delete" doc:id="17263970-6464-4f0b-92e7-5d5d06b31361" config-ref="Database_Config">
@@ -74,6 +74,6 @@ username=:uName,updated_by=:updatedBy,updated_date=CURRENT_TIMESTAMP()
 	uId:attributes.uriParams.userId
 }]]]></db:input-parameters>
 		</db:delete>
-		<logger level="INFO" doc:name="Logger" doc:id="561c2ea2-f8f9-4a8f-bdf9-d1f17a842a80" message="user creted"/>
+		<logger level="INFO" doc:name="Logger" doc:id="561c2ea2-f8f9-4a8f-bdf9-d1f17a842a80" message="#[payload]"/>
 	</sub-flow>
 </mule>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="create-role" doc:id="90c388f7-626f-415f-a337-5864172c1484" >
+		<http:request method="POST" doc:name="post role" doc:id="634217c2-b9d4-4e90-8320-97f8b65bac43" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="686a230a-09c2-4d21-bc56-a9b3be070ba1" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="list-role" doc:id="18c8262b-6c75-4ef4-a639-3816e60a8a8d" >
+		<http:request method="GET" doc:name="get role" doc:id="ad5ee1c3-9221-4181-b1d0-b48c509c3b78" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5f4f353e-e286-4fa4-aa7f-6de8948f2219" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="search-role" doc:id="02d7900d-ae5d-4595-bf4e-54b220e28f60" >
+		<http:request method="GET" doc:name="get roleId" doc:id="bfddd846-9417-4d74-997b-88848552d173" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePathId}">
+			<http:uri-params ><![CDATA[#[{
+	"roleId": attributes.uriParams.'roleId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="323564d2-4c1c-43ca-8bf3-2843704bbe1f" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-role" doc:id="2812bfe9-f771-4496-896f-5679fe91daf6" >
+		<http:request method="PUT" doc:name="put role" doc:id="ae1c0264-831f-44a2-8e71-536cb8cf6a97" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePathId}">
+			<http:uri-params ><![CDATA[#[{
+	"roleId": attributes.uriParams.'roleId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="7ad409ef-b070-4053-acbd-69dd5ec49c68" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="delete-role" doc:id="43d5b856-93d2-41db-990d-d189a8533585" >
+		<http:request method="DELETE" doc:name="delete role" doc:id="9af6330d-eb85-4854-afd5-9991b67bac03" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePathId}">
+			<http:uri-params ><![CDATA[#[{
+	"roleId": attributes.uriParams.'roleId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="3c482ea3-d802-4217-a5e0-56f591bdee6a" message="#[payload]"/>
+	</sub-flow>
+</mule>

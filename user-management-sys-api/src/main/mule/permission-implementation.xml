@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 		<db:select doc:name="Select" doc:id="94b85884-215c-42e9-9f14-e6c4e4794d09" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM permission;]]></db:sql>
 		</db:select>
-		<logger level="INFO" doc:name="Logger" doc:id="a84dd48d-56a1-4a75-bcf1-63804c760026" message="payload"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a84dd48d-56a1-4a75-bcf1-63804c760026" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="search-permission" doc:id="70815347-83cd-474d-9fb1-c440e1e25e81" >
 		<db:select doc:name="Select" doc:id="92197616-8ae6-4009-84be-6e3f18a90a4e" config-ref="Database_Config">
@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	pId:attributes.uriParams.PermissionId
 }]]]></db:input-parameters>
 		</db:select>
-		<logger level="INFO" doc:name="Logger" doc:id="c0f9d2c3-ce28-4208-823b-74f9375cfee0" />
+		<logger level="INFO" doc:name="Logger" doc:id="c0f9d2c3-ce28-4208-823b-74f9375cfee0" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="create-permission" doc:id="357263c4-cf56-416d-930f-2ba8c397e45d" >
 		<db:insert doc:name="Insert" doc:id="ef6fd3a1-b944-42ae-a357-1c0ffc7ff608" config-ref="Database_Config">
@@ -31,7 +31,7 @@ VALUES
 	updatedBy: "ADMIN"
 }]]]></db:input-parameters>
 		</db:insert>
-		<logger level="INFO" doc:name="Logger" doc:id="ff335f3a-5d15-487c-86d3-72e3efa753bc" />
+		<logger level="INFO" doc:name="Logger" doc:id="ff335f3a-5d15-487c-86d3-72e3efa753bc" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="update-permission" doc:id="d610315b-40ab-49d6-a4bb-4f1e3d42e645" >
 		<db:update doc:name="Update" doc:id="0e6dc33b-c4ac-4ad5-8d8b-27d5ff1aea78" config-ref="Database_Config">
@@ -50,6 +50,9 @@ WHERE id = :permissionId;]]></db:sql>
 		<db:delete doc:name="Delete" doc:id="940ce4ff-7dc1-4762-bc8f-1e6b4b6dfb74" config-ref="Database_Config">
 			<db:sql ><![CDATA[DELETE FROM permission WHERE id=:pId;
 ]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"pId": attributes.uriParams.PermissionId
+}]]]></db:input-parameters>
 		</db:delete>
 		<logger level="INFO" doc:name="Logger" doc:id="9bf9f533-c7ba-4469-9cfc-776c4e359f2d" message="#[payload]"/>
 	</sub-flow>

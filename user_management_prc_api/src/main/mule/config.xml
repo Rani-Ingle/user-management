@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<configuration doc:name="Configuration" doc:id="e555f273-f0dc-4c71-ba52-62e637d34b7e" defaultErrorHandler-ref="error-handlingError_Handler" />
+	    <http:listener-config name="user-management-prc-api-httpListenerConfig">
+        <http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${http.timeOut}"/>
+    </http:listener-config>
+    <apikit:config name="user-management-prc-api-config" api="user-management-prc-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="817c3186-2fcb-48e0-98fb-c1abbec9b5ac" flowRef="user-management-prc-api-main" />
+	<configuration-properties doc:name="Configuration properties" doc:id="21b31183-3255-402a-8faa-f9bdcf742e8a" file="user-management-prc-api-${mule.env}.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="97cf0b64-86db-4227-9c8e-028273320a07" file="user-management-prc-api-secure-${mule.env}.yaml" key="${encryption.key}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+		<http:request-config name="user_management_sys_api_Request_configuration" doc:name="HTTP Request configuration" doc:id="8e2970fe-2c0d-4c22-a35c-abd52106fa62" >
+		<http:request-connection host="${userManagementSysApi.host}" port="${userManagementSysApi.port}" connectionIdleTimeout="${userManagementSysApi.timeOut}"/>
+	</http:request-config>
+</mule>

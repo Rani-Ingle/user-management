@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<sub-flow name="create-user" doc:id="ee63f3de-7ef6-4916-8090-8b45506f7f90" >
+		<http:request method="POST" doc:name="post user" doc:id="13ce30bc-00d4-49bb-9449-323e9637b65a" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="99c75ec0-2578-4d20-b5c3-839f7f791038" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="list-user" doc:id="d9619a82-3c3b-4166-968a-07f12b258855" >
+		<http:request method="GET" doc:name="get user" doc:id="f804294a-e182-429d-aeaf-a51ac7ddf329" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4a668118-c719-4f85-bcdc-96fb51f1131d" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="search-user" doc:id="d2e2574d-8818-4562-8576-6d68c7e7d0d7" >
+		<http:request method="GET" doc:name="get userId" doc:id="11dfcbb7-8424-4389-990d-8793b43275ed" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPathId}">
+			<http:uri-params ><![CDATA[#[output application/json
+---
+{
+	"userId" : attributes.uriParams.'userId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="2253a595-53f8-4a7e-bfd5-6c0e5cc126d2" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-user" doc:id="33e1e3b9-594d-4c03-b6ca-922b3788ad16" >
+		<http:request method="PUT" doc:name="put user" doc:id="0040d893-a22d-405f-b676-7b6df6498f27" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"userId": attributes.uriParams.'userId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="19bc26b5-6be7-41e1-a02b-18d3e3e430c9" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="delete-user" doc:id="0900b5e8-0d84-4b86-b6e1-6e3ee281f638" >
+		<http:request method="DELETE" doc:name="delete user" doc:id="7a38e19b-9e0b-45f1-bc96-b6d07d92c01b" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"userId": attributes.uriParams.'userId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="4fc10798-da1b-4ae8-af37-002ff74a16a5" message="#[payload]"/>
+	</sub-flow>
+</mule>

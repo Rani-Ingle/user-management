@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="create-permission" doc:id="ba3072b8-c847-441e-bd9c-738e5a4838c4" >
+		<http:request method="POST" doc:name="post permission" doc:id="d996617f-cb61-4cfc-8e37-453e34069186" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.permissionPath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c15def63-af70-4d7b-9d19-0b0d5bec709a" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="list-permission" doc:id="39996bb7-99e6-451c-9594-bb6e18b7f411" >
+		<http:request method="GET" doc:name="get permission" doc:id="8abd0d83-05e5-49da-938c-34f34cb87df1" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.permissionPath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e0b06143-d595-409d-b1ed-a2c51ab62823" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="search-permission" doc:id="7a221423-75d7-434b-af9e-c5a2a9d9bdad" >
+		<http:request method="GET" doc:name="get permissionId" doc:id="95733eb5-366b-4c73-a14f-2fbaba68be91" path="${userManagementSysApi.permissionPathId}" config-ref="user_management_sys_api_Request_configuration">
+			<http:uri-params ><![CDATA[#[{
+	"permissionId": attributes.uriParams.permissionId
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="595acb0e-57cb-4c5d-a441-8a37df5fc58d" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-permission" doc:id="bb1ed2b5-3294-4f6f-839b-d0359e28fd31" >
+		<http:request method="PUT" doc:name="put permission" doc:id="1259fcc1-96f8-450e-a450-558c944ffecf" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.permissionPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"permissionId": attributes.uriParams.'permissionId'
+}]]]></http:uri-params>
+		</http:request>
+	</sub-flow>
+	<sub-flow name="delete-permission" doc:id="ce10977c-4884-499e-ab26-72edc52f8da1" >
+		<http:request method="DELETE" doc:name="delete permission" doc:id="fab5fb3f-0db0-4a9c-9587-65ec94087ac8" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.permissionPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"permissionId": attributes.uriParams.'permissionId'
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="9d67c4d7-9aa4-4758-b2ee-0a28b151e522" message="#[payload]"/>
+	</sub-flow>
+</mule>

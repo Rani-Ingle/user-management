@@ -1,0 +1,194 @@
+#%RAML 1.0
+title: user-management-prc-api
+
+/user:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example:  !include examples/userExamples/listUserResponse.json
+  post:
+    body:
+      application/json:
+        example: !include examples/userExamples/userExample.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/userExamples/createUserResponse.json
+  /{userId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/userExamples/userExample.raml
+    put:
+      body:
+        application/json:
+          example: !include examples/userExamples/userExample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/userExamples/updateUserResponse.raml
+                
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/userExamples/deleteUserResponse.json
+/role:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/roleExamples/listRoleResponse.raml
+  post:
+    body:
+      application/json:
+        example: !include examples/roleExamples/roleExample.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/roleExamples/createRoleResponse.raml
+  /{roleId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/roleExamples/roleExample.raml
+    put:
+      body:
+        application/json:
+          example: !include examples/roleExamples/roleExample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/roleExamples/updateRoleResponse.raml
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/roleExamples/deleteRoleResponse.raml
+/permission:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/permissionExamples/listPermissionResponse.raml
+  post:
+    body:
+      application/json:
+        example: !include examples/permissionExamples/permissionExample.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/permissionExamples/createPermissionResponse.raml
+  /{permissionId}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/permissionExamples/permissionExample.raml
+    put:
+      body:
+        application/json:
+          example: !include examples/permissionExamples/permissionExample.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/permissionExamples/updatePermissionResponse.raml
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/permissionExamples/deletePermissionResponse.raml               
+/user_role_mapping:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/user_role_mappingExamples/listResponse.json
+  post:
+    body:
+      application/json:
+        example: !include examples/user_role_mappingExamples/user_role_mappingExamples.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/user_role_mappingExamples/createResponse.json
+  /{user_role_mapping_Id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/user_role_mappingExamples/user_role_mappingExamples.json
+    put:
+      body:
+        application/json:
+          example: !include examples/user_role_mappingExamples/user_role_mappingExamples.json
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/user_role_mappingExamples/createResponse.json
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/user_role_mappingExamples/deleteResponse.json
+/role_permission_mapping:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/role_permission_mappingExamples/listResponse.json
+  post:
+    body:
+      application/json:
+        example: !include examples/role_permission_mappingExamples/role_permission_mappingExample.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/role_permission_mappingExamples/createResponse.json
+  /{role_permission_mapping_id}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/role_permission_mappingExamples/role_permission_mappingExample.json
+    put:
+      body:
+        application/json:
+          example: !include examples/role_permission_mappingExamples/role_permission_mappingExample.json
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/role_permission_mappingExamples/updateResponse.json                
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/role_permission_mappingExamples/deleteResponse.json

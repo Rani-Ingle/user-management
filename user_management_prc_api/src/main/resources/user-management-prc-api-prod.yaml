@@ -1,0 +1,8 @@
+api: 
+  id: "00000"
+  basePath: "/prc/api/*"
+  
+http:
+  host: "localhost"
+  port: "8081"
+  timeOut: "30000"
