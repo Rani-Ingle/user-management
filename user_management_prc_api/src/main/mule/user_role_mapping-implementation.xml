@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="create-user_role_mapping" doc:id="dfc5a739-bc56-4405-8f0d-ab3833031927" >
+		<http:request method="POST" doc:name="post user_role_mapping" doc:id="51d2cd04-3eaf-42cc-8a56-fa613d6fd106" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userRoleMAppingPath}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4d9de8ee-ee0d-4eda-9676-824108e99465" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="list-user_role_mapping" doc:id="46244bf8-8f35-4d5f-920d-38ee40372920" >
+		<http:request method="GET" doc:name="get user_role_mapping" doc:id="28a73533-c2a8-478a-855e-07cbbc8e9129" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userRoleMAppingPath}"/>
+	</sub-flow>
+	<sub-flow name="search-user_role_mapping" doc:id="d7f3fd7a-b755-46bd-ab7c-62ae4061afed" >
+		<http:request method="GET" doc:name="get user_role_mappingId" doc:id="441cc1f0-5e35-48ca-b056-9c23a6951268" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userRoleMAppingPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"user_role_mapping_Id": attributes.uriParams.user_role_mapping_Id
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="eff5b7cb-1293-4155-beae-6d6bc93c82c9" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="update-user_role_mapping" doc:id="dcedcc29-102f-4d67-a4f1-d8593a108d40" >
+		<http:request method="PUT" doc:name="put user_role_mapping" doc:id="b28bc029-7c9b-4235-934a-3be60bdb805e" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userRoleMAppingPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"user_role_mapping_Id": attributes.uriParams.user_role_mapping_Id
+}]]]></http:uri-params>
+		</http:request>
+	</sub-flow>
+	<sub-flow name="delete-user_role_mapping" doc:id="14b71e8b-6da0-4a6f-9c45-3e0362e90854" >
+		<http:request method="DELETE" doc:name="delete user_role_mapping" doc:id="8599605b-1168-42bb-b15b-509fb578a6e9" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userRoleMAppingPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"user_role_mapping_Id": attributes.uriParams.user_role_mapping_Id
+}]]]></http:uri-params>
+		</http:request>
+	</sub-flow>
+</mule>

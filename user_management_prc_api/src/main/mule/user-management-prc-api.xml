@@ -52,19 +52,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="put:\role_permission_mapping\(role_permission_mapping_id):application\json:user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="role_permission_mapping_id">attributes.uriParams.'role_permission_mapping_id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
+        <flow-ref doc:name="update-role_permission_mapping" doc:id="b576b03a-3410-446b-a25b-0ea0ec3a68fe" name="update-role_permission_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "role_permission_mapping details updated successfully"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -80,19 +74,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="put:\user_role_mapping\(user_role_mapping_Id):application\json:user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="user_role_mapping_Id">attributes.uriParams.'user_role_mapping_Id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
+        <flow-ref doc:name="update-user_role_mapping" doc:id="e56bc9c2-9513-49ec-9305-167d47a7e943" name="update-user_role_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "user_role_mapping created successfully"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -119,19 +107,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="delete:\role_permission_mapping\(role_permission_mapping_id):user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="role_permission_mapping_id">attributes.uriParams.'role_permission_mapping_id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
+        <flow-ref doc:name="delete-role_permission_mapping" doc:id="ecb322a4-284a-453d-ad75-597dea8b5327" name="delete-role_permission_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "role_permission_mapping details deleted successfully"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -147,19 +129,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="delete:\user_role_mapping\(user_role_mapping_Id):user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="user_role_mapping_Id">attributes.uriParams.'user_role_mapping_Id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
+        <flow-ref doc:name="delete-user_role_mapping" doc:id="bdb20924-4b4f-46ed-95d9-365157ea2f66" name="delete-user_role_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "user_role_mapping details deleted successfully"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -186,12 +162,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\role_permission_mapping:user-management-prc-api-config">
-        <ee:transform>
+        <flow-ref doc:name="list-role_permission_mapping" doc:id="5a32c74e-8a67-4260-a484-23ff03857524" name="list-role_permission_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-""]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -207,26 +184,17 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\user_role_mapping:user-management-prc-api-config">
-        <ee:transform>
+        <flow-ref doc:name="list-user_role_mapping" doc:id="cf7bd004-6a6d-4370-83b9-1f8fd3635a37" name="list-user_role_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-[
-  {
-    userId: 1,
-    roleId: 1
-  }
-]]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
     <flow name="get:\permission\(permissionId):user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="permissionId">attributes.uriParams.'permissionId'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
         <flow-ref doc:name="search-permission" doc:id="1eb86c8f-0cbd-4a92-980a-860364911755" name="search-permission"/>
 		<ee:transform>
             <ee:message>
@@ -249,20 +217,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\role_permission_mapping\(role_permission_mapping_id):user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="role_permission_mapping_id">attributes.uriParams.'role_permission_mapping_id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
+        <flow-ref doc:name="search-role_permission_mappingId" doc:id="860c5ceb-250b-4621-9658-e7a5cfddeced" name="search-role_permission_mappingId"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  roleId: 1,
-  permissionId: 1
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -278,20 +239,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\user_role_mapping\(user_role_mapping_Id):user-management-prc-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="user_role_mapping_Id">attributes.uriParams.'user_role_mapping_Id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
+        <flow-ref doc:name="search-user_role_mapping_Id" doc:id="082cb8af-7609-4be3-a5b4-c166afead08d" name="search-user_role_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  userId: 1,
-  roleId: 1
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -318,14 +272,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\role_permission_mapping:application\json:user-management-prc-api-config">
-        <ee:transform>
+        <flow-ref doc:name="create-role_permission_mapping" doc:id="3cbdda70-849d-46b8-9b91-6d144a9723ea" name="create-role_permission_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "role_permission_mapping created successfully"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -341,14 +294,13 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\user_role_mapping:application\json:user-management-prc-api-config">
-        <ee:transform>
+        <flow-ref doc:name="create-user_role_mapping" doc:id="b63534b6-182d-45a2-b736-6891189bf35d" name="create-user_role_mapping"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "user_role_mapping created successfully"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>

@@ -304,11 +304,6 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\role_permission_mapping\(role_permission_mapping_id):user-management-sys-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="role_permission_mapping_id">attributes.uriParams.'role_permission_mapping_id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
         <flow-ref doc:name="search-role_permission_mapping" doc:id="52a744e3-c096-4ba3-9929-f87ff844dfa9" name="search-role_permission_mapping"/>
 		<ee:transform>
             <ee:message>
@@ -320,11 +315,6 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\user_role_mapping\(user_role_mapping_Id):user-management-sys-api-config">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="user_role_mapping_Id">attributes.uriParams.'user_role_mapping_Id'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
         <flow-ref doc:name="search-user_role_mapping" doc:id="3048e109-bd08-4f65-9321-234576195a18" name="search-user_role_mapping"/>
 		<ee:transform>
             <ee:message>

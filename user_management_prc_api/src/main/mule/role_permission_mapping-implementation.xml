@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="create-role_permission_mapping" doc:id="9e49c483-3154-4744-a5e2-82aff19ca2db" >
+		<http:request method="POST" doc:name="post role_permission_mapping" doc:id="f5586e74-350a-43fd-944c-0242806cc934" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePermissionMappingPath}"/>
+	</sub-flow>
+	<sub-flow name="list-role_permission_mapping" doc:id="4b80ba6d-152e-4886-8af4-2969c96c8c1b" >
+		<http:request method="GET" doc:name="get role_permission_mapping" doc:id="09dac14e-b219-45ff-b495-006562752165" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePermissionMappingPath}"/>
+	</sub-flow>
+	<sub-flow name="search-role_permission_mappingId" doc:id="da7515b5-70b5-4a75-baef-9a08f69d8030" >
+		<http:request method="GET" doc:name="get role_permission_mappingId" doc:id="7af24f25-7efb-4e45-be6a-e97f6700ee51" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePermissionMappingPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"role_permission_mapping_id": attributes.uriParams.role_permission_mapping_id
+}]]]></http:uri-params>
+		</http:request>
+	</sub-flow>
+	<sub-flow name="update-role_permission_mapping" doc:id="feb25f80-c66b-4015-91fb-0dd1a62428d7" >
+		<http:request method="PUT" doc:name="put role_permission_mapping" doc:id="a5ddbf94-b23b-422d-9e3f-bf89b96c0d1b" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePermissionMappingPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"role_permission_mapping_id": attributes.uriParams.role_permission_mapping_id
+}]]]></http:uri-params>
+		</http:request>
+	</sub-flow>
+	<sub-flow name="delete-role_permission_mapping" doc:id="c5182570-cdd6-4383-b185-71b8b6b6dec6" >
+		<http:request method="DELETE" doc:name="delete role_permission_mapping" doc:id="60d9744e-0a32-43bb-8667-b849061c4d71" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePermissionMappingPathId}">
+			<http:uri-params ><![CDATA[#[{
+	"role_permission_mapping_id": attributes.uriParams.role_permission_mapping_id
+}]]]></http:uri-params>
+		</http:request>
+	</sub-flow>
+</mule>

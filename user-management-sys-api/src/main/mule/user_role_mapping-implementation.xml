@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 		<db:select doc:name="Select" doc:id="46529975-eb81-40c0-85e1-4f74044c8038" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM user_role_mapping WHERE id=:urId;]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	urId:attributes.uriParams.user_role_mapping_Id
+	"urId" :attributes.uriParams.user_role_mapping_Id
 }]]]></db:input-parameters>
 		</db:select>
 		<logger level="INFO" doc:name="Logger" doc:id="a8113550-167e-4610-835c-be7a660eff1f" message="#[payload]"/>

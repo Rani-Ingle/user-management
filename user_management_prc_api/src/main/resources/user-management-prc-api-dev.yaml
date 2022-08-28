@@ -17,3 +17,7 @@ userManagementSysApi:
   rolePathId: "/sys/api/role/{roleId}"
   permissionPath: "/sys/api/permission"
   permissionPathId: "/sys/api/permission/{permissionId}"
+  userRoleMAppingPath: "/sys/api/user_role_mapping"
+  userRoleMAppingPathId: "/sys/api/user_role_mapping/{user_role_mapping_Id}"
+  rolePermissionMappingPath: "/sys/api/role_permission_mapping"
+  rolePermissionMappingPathId: "/sys/api/role_permission_mapping/{role_permission_mapping_id}"

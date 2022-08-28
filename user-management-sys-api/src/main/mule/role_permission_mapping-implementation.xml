@@ -27,9 +27,9 @@ VALUES
 	</sub-flow>
 	<sub-flow name="search-role_permission_mapping" doc:id="0101c786-617c-4eac-ad7e-bd3a4aa5946c" >
 		<db:select doc:name="Select" doc:id="3f2ec958-ecca-4efc-9f70-7a487bfaa725" config-ref="Database_Config">
-			<db:sql ><![CDATA[SELECT * FROM role_permission_mapping WHERE id = rpId;]]></db:sql>
+			<db:sql ><![CDATA[SELECT * FROM role_permission_mapping WHERE id = :rpId;]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	rpId: attributes.uriParams.role_permission_mapping_id
+	"rpId": attributes.uriParams.role_permission_mapping_id
 }]]]></db:input-parameters>
 		</db:select>
 		<logger level="INFO" doc:name="Logger" doc:id="18e38db1-aff4-4d85-8edb-6d076a8b4a5d" message="#[payload]"/>
@@ -55,9 +55,9 @@ WHERE id = :rpId;]]></db:sql>
 	</sub-flow>
 	<sub-flow name="delete-role_permission_mapping" doc:id="cfa2a9ae-10b0-48a9-ac4d-e074897e08e0" >
 		<db:delete doc:name="Delete" doc:id="f79ec4cd-bc0b-42d3-9a89-13058bc498be" config-ref="Database_Config">
-			<db:sql ><![CDATA[DELETE FROM role_permission_mapping WHERE id = rpId;]]></db:sql>
+			<db:sql ><![CDATA[DELETE FROM role_permission_mapping WHERE id = :rpId;]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	epId: attributes.uriParams.role_permission_mapping_ip
+	"rpId": attributes.uriParams.role_permission_mapping_id
 }]]]></db:input-parameters>
 		</db:delete>
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="10ce7b96-0b39-4d67-8140-412c5da602d3" />
