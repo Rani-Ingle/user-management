@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="create-role" doc:id="90c388f7-626f-415f-a337-5864172c1484" >
-		<http:request method="POST" doc:name="post role" doc:id="634217c2-b9d4-4e90-8320-97f8b65bac43" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePath}"/>
+		<http:request method="GET" doc:name="Request" doc:id="bf939581-b86e-4e74-93da-82d6e0919d61" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.roleByRoleNamePath}" target="roleNameResult">
+			<http:query-params ><![CDATA[#[output application/json
+---
+{
+	"roleName" : payload.roleName
+}]]]></http:query-params>
+		</http:request>
+		<choice doc:name="Choice" doc:id="e6888635-3266-4603-b646-b1b1eca1bd45" >
+			<when expression="#[sizeOf(vars.roleNameResult) == 0]">
+				<http:request method="POST" doc:name="post role" doc:id="634217c2-b9d4-4e90-8320-97f8b65bac43" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.rolePath}" />
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="ca9f1995-8d2e-42bc-95c6-e8409b77657d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "role already present"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
 		<logger level="INFO" doc:name="Logger" doc:id="686a230a-09c2-4d21-bc56-a9b3be070ba1" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="list-role" doc:id="18c8262b-6c75-4ef4-a639-3816e60a8a8d" >

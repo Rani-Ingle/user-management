@@ -1,13 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<sub-flow name="create-user" doc:id="ee63f3de-7ef6-4916-8090-8b45506f7f90" >
-		<http:request method="POST" doc:name="post user" doc:id="13ce30bc-00d4-49bb-9449-323e9637b65a" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPath}"/>
+		<http:request method="GET" doc:name="Request" doc:id="4ae63c0b-3719-4aab-a8ac-d14be787f737" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userByEmailPath}" target="emailResult">
+			<http:query-params ><![CDATA[#[output application/json
+---
+{
+	"email" : payload.mail
+}]]]></http:query-params>
+		</http:request>
+		<choice doc:name="Choice" doc:id="81fdf063-7bf9-488b-a38c-ed2eb89a08bb" >
+			<when expression="#[sizeOf(vars.emailResult) == 0]">
+				<http:request method="POST" doc:name="post user" doc:id="13ce30bc-00d4-49bb-9449-323e9637b65a" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userPath}" target="createUserResponse"/>
+				<foreach doc:name="For Each" doc:id="2b217e12-174c-4016-99ba-2e6b68cddfd9" collection="#[payload.roles]">
+					<ee:transform doc:name="Transform Message" doc:id="034f9d5a-de96-4e4a-8def-53afaeabad63" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "user_id": vars.createUserResponse.generatedKeys.GENERATED_KEY,
+  "role_id": payload
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+					<http:request method="POST" doc:name="Request" doc:id="d04f2cb8-0069-4f15-b33b-8e6af1b201bf" config-ref="user_management_sys_api_Request_configuration" path="${userManagementSysApi.userRoleMAppingPath}"/>
+				</foreach>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="e9423981-f302-4e06-a720-6e4de285f9d6" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "email already present"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
 		<logger level="INFO" doc:name="Logger" doc:id="99c75ec0-2578-4d20-b5c3-839f7f791038" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="list-user" doc:id="d9619a82-3c3b-4166-968a-07f12b258855" >

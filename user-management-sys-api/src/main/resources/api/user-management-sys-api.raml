@@ -43,6 +43,16 @@ title: user-management-sys-api
           body:
             application/json:
               example: {"message" : "user deleted successfully"}
+  /email:
+    get:
+      queryParameters:
+        email: string
+      responses:
+        200:
+          body:
+            application/json:
+              example: []
+                                                                    
 /role:
   get:
     description: List all roles
@@ -95,6 +105,15 @@ title: user-management-sys-api
             application/json:
               example:
                 {"message": "role deleted successfully"}
+  /roleName:
+    get:
+      queryParameters:
+        roleName: string
+      responses:
+        200:
+          body:
+            application/json:
+              example: []
 /permission:
   get:
     description: List permission
@@ -153,6 +172,15 @@ title: user-management-sys-api
             application/json:
               example:
                 {"message": "permission deleted successfully"}
+  /permissionName:
+    get:
+      queryParameters:
+        permissionName: string
+      responses:
+        200:
+          body:
+            application/json:
+              example: []
 /user_role_mapping:
   get:
     description: List user_role_mapping details

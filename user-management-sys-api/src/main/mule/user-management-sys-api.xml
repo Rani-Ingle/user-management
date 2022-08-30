@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-<flow name="user-management-sys-api-main">
+    <flow name="user-management-sys-api-main">
         <http:listener config-ref="user-management-sys-api-httpListenerConfig" path="${http.basePath}">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
@@ -11,8 +11,7 @@
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="user-management-sys-api-config" />
-        <error-handler ref="error-handlingError_Handler">
-       </error-handler>
+        <error-handler ref="error-handlingError_Handler" />
     </flow>
     <flow name="user-management-sys-api-console">
         <http:listener config-ref="user-management-sys-api-httpListenerConfig" path="/console/*">
@@ -25,7 +24,7 @@
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="user-management-sys-api-config" />
-		<error-handler ref="error-handlingError_Handler" />
+        <error-handler ref="error-handlingError_Handler" />
     </flow>
     <flow name="put:\user\(userId):application\json:user-management-sys-api-config">
         <ee:transform>
@@ -97,9 +96,7 @@ payload[0]]]></ee:set-payload>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  message: "user created"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
@@ -109,8 +106,8 @@ output application/json
                 <ee:set-variable variableName="PermissionId">attributes.uriParams.'PermissionId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-		<flow-ref doc:name="update-permission" doc:id="140b7f87-e320-40af-a773-3db0f6172ca6" name="update-permission"/>
-		<ee:transform>
+        <flow-ref doc:name="update-permission" doc:id="140b7f87-e320-40af-a773-3db0f6172ca6" name="update-permission" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -125,8 +122,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="roleId">attributes.uriParams.'roleId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="update-role" doc:id="0c3aaceb-d5c6-46ff-a071-2392bcbf5625" name="update-role"/>
-		<ee:transform>
+        <flow-ref doc:name="update-role" doc:id="0c3aaceb-d5c6-46ff-a071-2392bcbf5625" name="update-role" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -141,8 +138,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="role_permission_mapping_id">attributes.uriParams.'role_permission_mapping_id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="update-role_permission_mapping" doc:id="62aceb77-3bac-4ddb-8e5a-2ea14e914ea6" name="update-role_permission_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="update-role_permission_mapping" doc:id="62aceb77-3bac-4ddb-8e5a-2ea14e914ea6" name="update-role_permission_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -157,8 +154,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="user_role_mapping_Id">attributes.uriParams.'user_role_mapping_Id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="update-user_role_mapping" doc:id="cb92320f-a830-491c-986f-41e3e2df1cad" name="update-user_role_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="update-user_role_mapping" doc:id="cb92320f-a830-491c-986f-41e3e2df1cad" name="update-user_role_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -173,8 +170,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="PermissionId">attributes.uriParams.'PermissionId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="delete-permission" doc:id="b8bedb32-687c-4203-8b2a-dd1a856967df" name="delete-permission"/>
-		<ee:transform>
+        <flow-ref doc:name="delete-permission" doc:id="b8bedb32-687c-4203-8b2a-dd1a856967df" name="delete-permission" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -191,8 +188,8 @@ output application/json
                 <ee:set-variable variableName="roleId">attributes.uriParams.'roleId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="delete-role" doc:id="c7dc692a-58f3-4a7b-8a5c-5cb6ee891a21" name="delete-role"/>
-		<ee:transform>
+        <flow-ref doc:name="delete-role" doc:id="c7dc692a-58f3-4a7b-8a5c-5cb6ee891a21" name="delete-role" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -209,8 +206,8 @@ output application/json
                 <ee:set-variable variableName="role_permission_mapping_id">attributes.uriParams.'role_permission_mapping_id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="delete-role_permission_mapping" doc:id="8e4d8230-694c-411f-88f4-d2ddec0009fc" name="delete-role_permission_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="delete-role_permission_mapping" doc:id="8e4d8230-694c-411f-88f4-d2ddec0009fc" name="delete-role_permission_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -225,8 +222,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="user_role_mapping_Id">attributes.uriParams.'user_role_mapping_Id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="delete-user_role_mapping" doc:id="dbdeb979-425b-4844-9f91-13bade72930a" name="delete-user_role_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="delete-user_role_mapping" doc:id="dbdeb979-425b-4844-9f91-13bade72930a" name="delete-user_role_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -236,8 +233,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\permission:user-management-sys-api-config">
-        <flow-ref doc:name="list-permission" doc:id="e7e53b79-ac44-4a2a-9d8d-c28870472354" name="list-permission"/>
-		<ee:transform>
+        <flow-ref doc:name="list-permission" doc:id="e7e53b79-ac44-4a2a-9d8d-c28870472354" name="list-permission" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -247,11 +244,11 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\role:user-management-sys-api-config">
-        <flow-ref doc:name="list-role" doc:id="6761e62e-2498-4476-a599-20bec3ba8690" name="list-role"/>
+        <flow-ref doc:name="list-role" doc:id="6761e62e-2498-4476-a599-20bec3ba8690" name="list-role" />
     </flow>
     <flow name="get:\role_permission_mapping:user-management-sys-api-config">
-        <flow-ref doc:name="list-role_permission_mapping" doc:id="11cb1bb3-7d86-409d-bf7f-013199725efc" name="list-role_permission_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="list-role_permission_mapping" doc:id="11cb1bb3-7d86-409d-bf7f-013199725efc" name="list-role_permission_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -261,8 +258,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\user_role_mapping:user-management-sys-api-config">
-        <flow-ref doc:name="list-user_role_mapping" doc:id="1a9b2162-be50-4283-9232-9037829fdd52" name="list-user_role_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="list-user_role_mapping" doc:id="1a9b2162-be50-4283-9232-9037829fdd52" name="list-user_role_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -277,8 +274,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="PermissionId">attributes.uriParams.'PermissionId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="search-permission" doc:id="910f5c7b-d13c-450b-aca8-8e6c44d2ed84" name="search-permission"/>
-		<ee:transform>
+        <flow-ref doc:name="search-permission" doc:id="910f5c7b-d13c-450b-aca8-8e6c44d2ed84" name="search-permission" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -293,8 +290,8 @@ payload]]></ee:set-payload>
                 <ee:set-variable variableName="roleId">attributes.uriParams.'roleId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="search-role" doc:id="6dfc3a3c-a35c-4553-8cfc-1bed78484588" name="search-role"/>
-		<ee:transform>
+        <flow-ref doc:name="search-role" doc:id="6dfc3a3c-a35c-4553-8cfc-1bed78484588" name="search-role" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -304,8 +301,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\role_permission_mapping\(role_permission_mapping_id):user-management-sys-api-config">
-        <flow-ref doc:name="search-role_permission_mapping" doc:id="52a744e3-c096-4ba3-9929-f87ff844dfa9" name="search-role_permission_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="search-role_permission_mapping" doc:id="52a744e3-c096-4ba3-9929-f87ff844dfa9" name="search-role_permission_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -315,8 +312,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="get:\user_role_mapping\(user_role_mapping_Id):user-management-sys-api-config">
-        <flow-ref doc:name="search-user_role_mapping" doc:id="3048e109-bd08-4f65-9321-234576195a18" name="search-user_role_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="search-user_role_mapping" doc:id="3048e109-bd08-4f65-9321-234576195a18" name="search-user_role_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -326,8 +323,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\permission:application\json:user-management-sys-api-config">
-        <flow-ref doc:name="create-permission" doc:id="61b81bde-b41e-4a08-9523-c897260af605" name="create-permission"/>
-		<ee:transform>
+        <flow-ref doc:name="create-permission" doc:id="61b81bde-b41e-4a08-9523-c897260af605" name="create-permission" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -337,8 +334,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\role:application\json:user-management-sys-api-config">
-        <flow-ref doc:name="create-role" doc:id="41e76cd4-bd00-4a95-beac-8528340f42b2" name="create-role"/>
-		<ee:transform>
+        <flow-ref doc:name="create-role" doc:id="41e76cd4-bd00-4a95-beac-8528340f42b2" name="create-role" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -350,8 +347,8 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\role_permission_mapping:application\json:user-management-sys-api-config">
-        <flow-ref doc:name="create-role_permission_mapping" doc:id="d992b99d-102e-4a21-88b6-8ccfff03d14e" name="create-role_permission_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="create-role_permission_mapping" doc:id="d992b99d-102e-4a21-88b6-8ccfff03d14e" name="create-role_permission_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -361,8 +358,8 @@ payload]]></ee:set-payload>
         </ee:transform>
     </flow>
     <flow name="post:\user_role_mapping:application\json:user-management-sys-api-config">
-        <flow-ref doc:name="create-user_role_mapping" doc:id="2c110fd1-efda-4d00-ad6c-6e11d270b43a" name="create-user_role_mapping"/>
-		<ee:transform>
+        <flow-ref doc:name="create-user_role_mapping" doc:id="2c110fd1-efda-4d00-ad6c-6e11d270b43a" name="create-user_role_mapping" />
+        <ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -370,5 +367,14 @@ output application/json
 payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+    </flow>
+    <flow name="get:\user\email:user-management-sys-api-config">
+        <flow-ref doc:name="get_userByEmail" doc:id="3a8c2a48-17bb-44d2-8839-30fd72796d99" name="get_userByEmail" />
+    </flow>
+    <flow name="get:\permission\permissionName:user-management-sys-api-config">
+		<flow-ref doc:name="get-permissionName " doc:id="204dc56f-c5a7-4088-aab0-652779792997" name="get-permissionName"/>
+    </flow>
+    <flow name="get:\role\roleName:user-management-sys-api-config">
+        <flow-ref doc:name="get-roleName" doc:id="6c29587e-779a-4178-acbe-4e93f84f3cc1" name="get-roleName"/>
     </flow>
 </mule>

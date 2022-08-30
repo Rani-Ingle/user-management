@@ -82,4 +82,21 @@ CURRENT_TIMESTAMP());]]></db:sql>
 		</db:delete>
 		<logger level="INFO" doc:name="Logger" doc:id="b614cabf-b2bb-4372-9913-5e72800e7b9c" message="#[payload]"/>
 	</sub-flow>
+	<sub-flow name="get-roleName" doc:id="25df9d2c-93ad-4ea5-a5ef-55aa2b8c0b27" >
+		<db:select doc:name="Select" doc:id="ef1d237e-9db3-4646-8494-6719a346962e" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM role WHERE roleName= :roleName;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"roleName": attributes.queryParams.roleName
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="885ef25a-16d0-4c62-9336-b8d3daa2e30d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="45a1bc85-6209-42e9-9560-c3dd343bcf6f" message="#[payload]"/>
+	</sub-flow>
 </mule>

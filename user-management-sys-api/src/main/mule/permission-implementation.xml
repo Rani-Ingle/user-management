@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="list-permission" doc:id="0ba278d3-f2e2-43d3-addc-728f131dc972" >
 		<db:select doc:name="Select" doc:id="94b85884-215c-42e9-9f14-e6c4e4794d09" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM permission;]]></db:sql>
@@ -55,5 +56,21 @@ WHERE id = :permissionId;]]></db:sql>
 }]]]></db:input-parameters>
 		</db:delete>
 		<logger level="INFO" doc:name="Logger" doc:id="9bf9f533-c7ba-4469-9cfc-776c4e359f2d" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="get-permissionName" doc:id="b87bbeed-e723-4166-89db-30298afe9758" >
+		<db:select doc:name="Select" doc:id="efa93969-e57b-4b9f-9880-65511427db9b" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM permission WHERE permissionName = :permissionName;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	"permissionName": attributes.queryParams.permissionName
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="cb40bf58-27d8-427c-9e74-a6a6f2cad113" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</sub-flow>
 </mule>
